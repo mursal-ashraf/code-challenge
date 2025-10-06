@@ -1,0 +1,13 @@
+{
+  "name": "codebase",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "yarn@1.22.22",
+  "scripts": {
+    "start": "yarn workspaces run start"
+  },
+  "workspaces": [
+    "frontend",
+    "server"
+  ]
+}
