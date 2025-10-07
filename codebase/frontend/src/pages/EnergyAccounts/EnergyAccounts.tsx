@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Box,
-  CircularProgress,
   Stack,
   Typography,
   FormControl,
@@ -12,6 +11,7 @@ import {
 } from '@mui/material';
 import { useEnergyAccounts } from './hooks/useEnergyAccounts';
 import { AccountCard } from './components/AccountCard';
+import { Loader } from '../../common/components/Loader';
 
 type EnergyTypeFilter = 'ALL' | 'ELECTRICITY' | 'GAS';
 
@@ -23,13 +23,7 @@ export const EnergyAccounts: React.FC = () => {
   const { loading, error, energyAccounts, noAccountsFoundMessage } =
     useEnergyAccounts({ energyTypeFilter, addressFilter });
 
-  if (loading)
-    return (
-      <>
-        <CircularProgress />
-        <Typography variant="body1">loading energy accounts...</Typography>
-      </>
-    );
+  if (loading) return <Loader text="getting accounts..." />;
   if (error) return <>error</>;
 
   return (

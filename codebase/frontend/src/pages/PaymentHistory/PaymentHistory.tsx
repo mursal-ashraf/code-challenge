@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router';
 import { PaymentHistoryTable } from './components/PaymentHistoryTable';
 import { GET_ENERGY_ACCOUNT_WITH_CHARGES } from '../../gql/queries';
 import type { EnergyAccount } from '../../types';
+import { Loader } from '../../common/components/Loader';
 
 export const PaymentHistory: React.FC = () => {
   const { accountId } = useParams<{ accountId: string }>();
@@ -16,7 +17,7 @@ export const PaymentHistory: React.FC = () => {
     variables: { id: accountId },
   });
 
-  if (loading) return <>loadinhg....</>;
+  if (loading) return <Loader text="getting payments..." />;
   if (error) return <>error</>;
 
   const energyAccount = data?.getEnergyAccount!;
