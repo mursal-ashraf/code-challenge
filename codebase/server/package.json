@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "test": "vitest",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "@apollo/datasource-rest": "^6.4.1",
@@ -13,6 +15,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.7.0",
+    "vitest": "^3.2.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
