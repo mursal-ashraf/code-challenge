@@ -1,17 +1,13 @@
-import { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { EnergyAccounts } from './EnergyAccounts';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <h1>Energy Accounts</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<EnergyAccounts />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
