@@ -1,3 +1,6 @@
+import { Charges } from './datasources/charges';
+import { EnergyAccounts } from './datasources/energyAccounts';
+
 export interface Charge {
   id: string;
   accountId: string;
@@ -20,3 +23,10 @@ interface GasAccount {
 }
 
 export type EnergyAccount = ElectricityAccount | GasAccount;
+
+export interface GraphGLContext {
+  datasources: {
+    energyAccounts: EnergyAccounts;
+    charges: Charges;
+  };
+}

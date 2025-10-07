@@ -1,51 +1,42 @@
 import { GraphQLError } from 'graphql';
 import { accounts, dueCharges } from './mocks';
-import { EnergyAccount } from './types';
+import { EnergyAccount, GraphGLContext } from './types';
 
 export const resolvers = {
   Query: {
     getEnergyAccounts: () => accounts,
-    getEnergyAccount: (_: {}, { id }: { id: string }) => {
-      const account = accounts.find((account) => account.id === id);
-      if (!account) {
-        throw new GraphQLError(`No account found with id: ${id}`);
-      }
-      return account;
+    getEnergyAccount: async (
+      _: {},
+      { id }: { id: string },
+      { datasources }: GraphGLContext
+    ) => {
+      return datasources.energyAccounts.getEnergyAccountById(id);
     },
   },
   Mutation: {
-    processPayment: (
+    processPayment: async (
       _: {},
       {
         input: { accountId, amount },
-      }: { input: { accountId: string; amount: number } }
+      }: { input: { accountId: string; amount: number } },
+      { datasources }: GraphGLContext
     ) => {
-      const account = accounts.find((account) => account.id === accountId);
-      if (!account) {
-        throw new GraphQLError(
-          `Account not found for account id: ${accountId}. Cannot process payment.`
-        );
-      }
-      if (amount <= 0) {
-        throw new GraphQLError(
-          `Payment amount needs to be greater than 0. Cannot process payment.`
-        );
-      }
-      const newCharge = {
-        id: 'new-payment-id', // TODO: charge id
-        accountId,
-        amount,
-        date: new Date().toISOString().slice(0, 10),
-      };
-      dueCharges.push(newCharge);
+      const account = await datasources.energyAccounts.getEnergyAccountById(
+        accountId
+      );
 
-      return accounts.find((account) => account.id === accountId);
+      datasources.charges.updateCharges({ accountId, amount });
+      return account;
     },
   },
   EnergyAccount: {
-    balance: ({ id }: EnergyAccount) => {
-      const accountCharges = dueCharges.filter(
-        (charge) => charge.accountId === id
+    balance: async (
+      { id }: EnergyAccount,
+      _: {},
+      { datasources }: GraphGLContext
+    ) => {
+      const accountCharges = await datasources.charges.getDueChargesByAccountId(
+        id
       );
 
       return accountCharges.reduce(
@@ -53,12 +44,12 @@ export const resolvers = {
         0
       );
     },
-    charges: ({ id }: EnergyAccount) => {
-      const accountCharges =
-        dueCharges.filter((charge) => charge.accountId === id) || [];
-      return accountCharges.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
+    charges: (
+      { id }: EnergyAccount,
+      _: {},
+      { datasources }: GraphGLContext
+    ) => {
+      return datasources.charges.getDueChargesByAccountId(id);
     },
   },
 };
