@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client/react';
-import { GET_ENERGY_ACCOUNTS } from './queries';
-import type { EnergyAccount } from './types';
+import { GET_ENERGY_ACCOUNTS } from '../../../gql/queries';
+import type { EnergyAccount } from '../../../types';
 import { capitalize } from 'lodash';
 
 type EnergyTypeFilter = 'ALL' | 'ELECTRICITY' | 'GAS';

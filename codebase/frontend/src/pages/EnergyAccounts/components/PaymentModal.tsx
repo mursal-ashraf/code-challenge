@@ -11,9 +11,9 @@ import {
   Button,
   CircularProgress,
 } from '@mui/material';
-import type { EnergyAccount } from './types';
+import type { EnergyAccount } from '../../../types';
 import { useMutation } from '@apollo/client/react';
-import { PROCESS_PAYMENT } from './mutations';
+import { PROCESS_PAYMENT } from '../../../gql/mutations';
 
 export const PaymentModal: React.FC<{
   account: EnergyAccount;

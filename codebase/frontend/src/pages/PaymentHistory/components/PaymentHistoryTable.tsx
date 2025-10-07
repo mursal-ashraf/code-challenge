@@ -8,7 +8,7 @@ import {
   Typography,
   Container,
 } from '@mui/material';
-import type { Charge } from './types';
+import type { Charge } from '../../../types';
 
 export const PaymentHistoryTable: React.FC<{ payments: Charge[] }> = ({
   payments,

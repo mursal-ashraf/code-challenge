@@ -2,9 +2,9 @@ import React from 'react';
 import { useQuery } from '@apollo/client/react';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
-import type { EnergyAccount } from './types';
-import { PaymentHistoryTable } from './PaymentHistoryTable';
-import { GET_ENERGY_ACCOUNT_WITH_CHARGES } from './queries';
+import { PaymentHistoryTable } from './components/PaymentHistoryTable';
+import { GET_ENERGY_ACCOUNT_WITH_CHARGES } from '../../gql/queries';
+import type { EnergyAccount } from '../../types';
 
 export const PaymentHistory: React.FC = () => {
   const { accountId } = useParams<{ accountId: string }>();

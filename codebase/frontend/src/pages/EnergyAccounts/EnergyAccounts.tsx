@@ -10,8 +10,8 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material';
-import { AccountCard } from './AccountCard';
-import { useEnergyAccounts } from './useEnergyAccounts';
+import { useEnergyAccounts } from './hooks/useEnergyAccounts';
+import { AccountCard } from './components/AccountCard';
 
 type EnergyTypeFilter = 'ALL' | 'ELECTRICITY' | 'GAS';
 
