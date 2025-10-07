@@ -18,9 +18,9 @@ export const PaymentHistory: React.FC = () => {
   });
 
   if (loading) return <Loader text="getting payments..." />;
-  if (error) return <>error</>;
+  if (error || !data?.getEnergyAccount) return <>error</>;
 
-  const energyAccount = data?.getEnergyAccount!;
+  const energyAccount = data?.getEnergyAccount;
   const payments = energyAccount.charges.filter((charge) => charge.amount > 0);
 
   return (
