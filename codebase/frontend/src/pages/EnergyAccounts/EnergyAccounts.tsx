@@ -13,6 +13,12 @@ import { useEnergyAccounts } from './hooks/useEnergyAccounts';
 import { AccountCard } from './components/AccountCard';
 import { Loader } from '../../common/components/Loader';
 
+/**
+ * TODO
+ * - proper query error handling
+ * - EnergyTypeFilter into a common type
+ */
+
 type EnergyTypeFilter = 'ALL' | 'ELECTRICITY' | 'GAS';
 
 export const EnergyAccounts: React.FC = () => {

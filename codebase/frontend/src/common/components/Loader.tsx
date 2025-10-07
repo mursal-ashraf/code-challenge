@@ -1,5 +1,10 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 
+/**
+ * TODO
+ * - fix CSS on this
+ */
+
 export const Loader: React.FC<{ text?: string }> = ({ text = '' }) => {
   return (
     <Box

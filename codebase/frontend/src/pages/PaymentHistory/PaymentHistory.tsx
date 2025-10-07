@@ -7,6 +7,10 @@ import { GET_ENERGY_ACCOUNT_WITH_CHARGES } from '../../gql/queries';
 import type { EnergyAccount } from '../../types';
 import { Loader } from '../../common/components/Loader';
 
+/**
+ * TODO: proper query error handling.
+ * maybe move query to within PaymentHistoryTable component
+ */
 export const PaymentHistory: React.FC = () => {
   const { accountId } = useParams<{ accountId: string }>();
   const navigateTo = useNavigate();

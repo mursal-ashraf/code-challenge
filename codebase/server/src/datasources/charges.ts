@@ -3,6 +3,11 @@ import { dueCharges } from '../mocks';
 import { Charge } from '../types';
 import { GraphQLError } from 'graphql';
 
+/**
+ * TODO
+ * - add datasource tests
+ * - token/logging config
+ */
 export class Charges extends RESTDataSource {
   getDueCharges(): Promise<Charge[]> {
     return new Promise((resolve) => {

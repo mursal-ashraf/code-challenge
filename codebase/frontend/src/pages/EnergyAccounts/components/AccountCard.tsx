@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Stack, Button } from '@mui/material';
-import type { EnergyAccount } from './types';
 import { capitalize } from 'lodash';
 import { PaymentModal } from './PaymentModal';
 import { useNavigate } from 'react-router';
+import type { EnergyAccount } from '../../../types';
 
 export const AccountCard: React.FC<{ account: EnergyAccount }> = ({
   account,

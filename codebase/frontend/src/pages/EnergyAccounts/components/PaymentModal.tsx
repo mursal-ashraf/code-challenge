@@ -15,6 +15,12 @@ import type { EnergyAccount } from '../../../types';
 import { useMutation } from '@apollo/client/react';
 import { PROCESS_PAYMENT } from '../../../gql/mutations';
 
+/**
+ * TODO
+ * - create some common components
+ * - validation for payment
+ */
+
 export const PaymentModal: React.FC<{
   account: EnergyAccount;
   onClose: () => void;
