@@ -1,17 +1,13 @@
 import { Box, CircularProgress, Typography } from '@mui/material';
 
-/**
- * TODO
- * - fix CSS on this
- */
-
 export const Loader: React.FC<{ text?: string }> = ({ text = '' }) => {
   return (
     <Box
       sx={{
         position: 'absolute',
-        top: '50%',
-        left: '50%',
+        top: '45%',
+        left: '45%',
+        textAlign: 'center',
       }}
     >
       <CircularProgress />

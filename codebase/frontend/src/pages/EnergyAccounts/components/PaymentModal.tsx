@@ -3,8 +3,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  Box,
-  Stack,
   TextField,
   Typography,
   DialogActions,
@@ -14,6 +12,7 @@ import {
 import type { EnergyAccount } from '../../../types';
 import { useMutation } from '@apollo/client/react';
 import { PROCESS_PAYMENT } from '../../../gql/mutations';
+import { Column, Row } from '../../../common/components/Styles';
 
 /**
  * TODO
@@ -41,7 +40,6 @@ export const PaymentModal: React.FC<{
       },
       onCompleted: () => {
         console.log('mutation completed successfully');
-        // close payment modal on success
         setShowSuccessModal(true);
       },
     });
@@ -82,51 +80,49 @@ export const PaymentModal: React.FC<{
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Make a Payment - {account.id}</DialogTitle>
       <DialogContent>
-        <Box sx={{ pt: 2 }}>
-          <Stack spacing={3}>
+        <Column spacing={3} sx={{ pt: 2 }}>
+          <TextField
+            label="Payment Amount"
+            type="number"
+            value={paymentAmount}
+            onChange={(e) => setPaymentAmount(e.target.value)}
+            placeholder="0.00"
+            fullWidth
+            required
+          />
+
+          <Typography variant="h6" gutterBottom>
+            Credit Card Details
+          </Typography>
+
+          <TextField
+            label="Card Number"
+            value={cardNumber}
+            onChange={(e) => setCardNumber(e.target.value)}
+            placeholder="1234 5678 9012 3456"
+            fullWidth
+            required
+          />
+
+          <Row spacing={2}>
             <TextField
-              label="Payment Amount"
-              type="number"
-              value={paymentAmount}
-              onChange={(e) => setPaymentAmount(e.target.value)}
-              placeholder="0.00"
-              fullWidth
+              label="Expiry Date"
+              value={expiryDate}
+              onChange={(e) => setExpiryDate(e.target.value)}
+              placeholder="MM/YY"
+              sx={{ flex: 1 }}
               required
             />
-
-            <Typography variant="h6" gutterBottom>
-              Credit Card Details
-            </Typography>
-
             <TextField
-              label="Card Number"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-              placeholder="1234 5678 9012 3456"
-              fullWidth
+              label="CVV"
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value)}
+              placeholder="123"
+              sx={{ flex: 1 }}
               required
             />
-
-            <Stack direction="row" spacing={2}>
-              <TextField
-                label="Expiry Date"
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
-                placeholder="MM/YY"
-                sx={{ flex: 1 }}
-                required
-              />
-              <TextField
-                label="CVV"
-                value={cvv}
-                onChange={(e) => setCvv(e.target.value)}
-                placeholder="123"
-                sx={{ flex: 1 }}
-                required
-              />
-            </Stack>
-          </Stack>
-        </Box>
+          </Row>
+        </Column>
       </DialogContent>
       <DialogActions sx={{ p: 3 }}>
         <Button onClick={onClose} color="secondary">

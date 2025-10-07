@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, Stack, Button } from '@mui/material';
+import { Card, CardContent, Typography, Button } from '@mui/material';
 import { capitalize } from 'lodash';
 import { PaymentModal } from './PaymentModal';
 import { useNavigate } from 'react-router';
 import type { EnergyAccount } from '../../../types';
+import { Row } from '../../../common/components/Styles';
 
 export const AccountCard: React.FC<{ account: EnergyAccount }> = ({
   account,
@@ -18,7 +19,7 @@ export const AccountCard: React.FC<{ account: EnergyAccount }> = ({
           <Typography variant="h6">{capitalize(account.type)}</Typography>
           <Typography variant="body2">{account.id}</Typography>
           <Typography variant="body2">{account.address}</Typography>
-          <Stack direction="row" justifyContent="space-between" mt={2}>
+          <Row justifyContent="space-between" mt={2}>
             <Typography variant="body2">Account Balance</Typography>
             <Typography
               variant="body2"
@@ -26,8 +27,8 @@ export const AccountCard: React.FC<{ account: EnergyAccount }> = ({
             >
               {`$${account.balance}`}
             </Typography>
-          </Stack>
-          <Stack direction="row" justifyContent="space-between" mt={2}>
+          </Row>
+          <Row justifyContent="space-between" mt={2}>
             <Button
               variant="contained"
               color="primary"
@@ -44,7 +45,7 @@ export const AccountCard: React.FC<{ account: EnergyAccount }> = ({
             >
               Payment History
             </Button>
-          </Stack>
+          </Row>
         </CardContent>
       </Card>
       {isPaymentModalOpen && (

@@ -1,11 +1,12 @@
 import React from 'react';
 import { useQuery } from '@apollo/client/react';
-import { Box, Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 import { PaymentHistoryTable } from './components/PaymentHistoryTable';
 import { GET_ENERGY_ACCOUNT_WITH_CHARGES } from '../../gql/queries';
 import type { EnergyAccount } from '../../types';
 import { Loader } from '../../common/components/Loader';
+import { CenterHorizontally, H1 } from '../../common/components/Styles';
 
 /**
  * TODO: proper query error handling.
@@ -28,14 +29,10 @@ export const PaymentHistory: React.FC = () => {
   const payments = energyAccount.charges.filter((charge) => charge.amount > 0);
 
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
+    <CenterHorizontally>
       <Button onClick={() => navigateTo(-1)}>Go Back</Button>
-      <Typography gutterBottom component="h1" variant="h3">
-        Payment History
-      </Typography>
+      <H1>Payment History</H1>
       <PaymentHistoryTable payments={payments} />
-    </Box>
+    </CenterHorizontally>
   );
 };

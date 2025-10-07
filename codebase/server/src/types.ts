@@ -8,17 +8,18 @@ export interface Charge {
   amount: number;
 }
 
-interface ElectricityAccount {
+interface BaseAccount {
   id: string;
-  type: 'ELECTRICITY';
   address: string;
+}
+
+interface ElectricityAccount extends BaseAccount {
+  type: 'ELECTRICITY';
   meterNumber: string;
 }
 
-interface GasAccount {
-  id: string;
+interface GasAccount extends BaseAccount {
   type: 'GAS';
-  address: string;
   volume: number;
 }
 

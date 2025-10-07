@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Box,
   Stack,
   Typography,
   FormControl,
@@ -12,6 +11,7 @@ import {
 import { useEnergyAccounts } from './hooks/useEnergyAccounts';
 import { AccountCard } from './components/AccountCard';
 import { Loader } from '../../common/components/Loader';
+import { CenterHorizontally, H1 } from '../../common/components/Styles';
 
 /**
  * TODO
@@ -33,16 +33,8 @@ export const EnergyAccounts: React.FC = () => {
   if (error) return <>error</>;
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Typography gutterBottom component="h1" variant="h3">
-        Energy Accounts
-      </Typography>
+    <CenterHorizontally>
+      <H1>Energy Accounts</H1>
 
       <Stack direction="row" spacing={2} sx={{ mb: 3, alignItems: 'center' }}>
         <TextField
@@ -80,6 +72,6 @@ export const EnergyAccounts: React.FC = () => {
           <Typography variant="body1">{noAccountsFoundMessage}</Typography>
         )}
       </Stack>
-    </Box>
+    </CenterHorizontally>
   );
 };

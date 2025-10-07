@@ -1,11 +1,9 @@
-import { GraphQLError } from 'graphql';
-import { accounts, dueCharges } from './mocks';
 import { EnergyAccount, GraphGLContext } from './types';
 
 export const resolvers = {
   Query: {
-    getEnergyAccounts: () => accounts,
-    getEnergyAccount: async (
+    getEnergyAccounts: (_: {}, __: {}, { datasources }: GraphGLContext) => datasources.energyAccounts.getEnergyAccounts(),
+    getEnergyAccount:  (
       _: {},
       { id }: { id: string },
       { datasources }: GraphGLContext
