@@ -8,6 +8,11 @@ import { PaymentHistory } from './pages/PaymentHistory/PaymentHistory';
 const client = new ApolloClient({
   link: new HttpLink({ uri: 'http://localhost:4000/' }),
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-first',
+    },
+  },
 });
 
 function App() {
