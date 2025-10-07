@@ -27,36 +27,32 @@ export const useEnergyAccounts = ({
       account.address.toLowerCase().includes(addressFilter.toLowerCase())
     );
 
-  const noAccountsFoundMessage = getNoAccountsFoundMessage(
+  const getNoAccountsFoundMessage = () => {
+    if (energyAccounts.length) return;
+    if (loading) return;
+
+    const hasEnergyTypeFilter = energyTypeFilter !== 'ALL';
+    const hasAddressFilter = addressFilter.length;
+
+    if (hasEnergyTypeFilter && hasAddressFilter) {
+      return `No ${capitalize(
+        energyTypeFilter
+      )} accounts found matching "${addressFilter}"!`;
+    }
+    if (hasAddressFilter) {
+      return `No accounts found matching "${addressFilter}"!`;
+    }
+    if (hasEnergyTypeFilter) {
+      return `No ${capitalize(energyTypeFilter)} accounts found!`;
+    }
+
+    return 'No energy accounts found!';
+  };
+
+  return {
+    loading,
+    error,
     energyAccounts,
-    energyTypeFilter,
-    addressFilter
-  );
-
-  return { loading, error, energyAccounts, noAccountsFoundMessage };
-};
-
-const getNoAccountsFoundMessage = (
-  energyAccounts: EnergyAccount[],
-  energyTypeFilter: EnergyTypeFilter,
-  addressFilter: string
-) => {
-  if (energyAccounts.length) return;
-
-  const hasEnergyTypeFilter = energyTypeFilter !== 'ALL';
-  const hasAddressFilter = addressFilter.length;
-
-  if (hasEnergyTypeFilter && hasAddressFilter) {
-    return `No ${capitalize(
-      energyTypeFilter
-    )} accounts found matching "${addressFilter}"!`;
-  }
-  if (hasAddressFilter) {
-    return `No accounts found matching "${addressFilter}"!`;
-  }
-  if (hasEnergyTypeFilter) {
-    return `No ${capitalize(energyTypeFilter)} accounts found!`;
-  }
-
-  return 'No energy accounts found!';
+    noAccountsFoundMessage: getNoAccountsFoundMessage(),
+  };
 };
