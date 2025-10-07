@@ -9,8 +9,11 @@ import {
   Typography,
   DialogActions,
   Button,
+  CircularProgress,
 } from '@mui/material';
 import type { EnergyAccount } from './types';
+import { useMutation } from '@apollo/client/react';
+import { PROCESS_PAYMENT } from './mutations';
 
 export const PaymentModal: React.FC<{
   account: EnergyAccount;
@@ -21,18 +24,54 @@ export const PaymentModal: React.FC<{
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
 
-  const handlePay = () => {
-    // TODO: Implement payment logic
-    console.log('Payment submitted:', {
-      accountId: account.id,
-      cardNumber,
-      expiryDate,
-      cvv,
-      amount: parseFloat(paymentAmount),
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const [processPayment, { loading, error }] = useMutation(PROCESS_PAYMENT);
+
+  const handlePayment = () => {
+    processPayment({
+      variables: {
+        input: { accountId: account.id, amount: parseFloat(paymentAmount) },
+      },
+      onCompleted: () => {
+        console.log('mutation completed successfully');
+        // close payment modal on success
+        setShowSuccessModal(true);
+      },
     });
-    onClose();
   };
 
+  if (loading) {
+    return (
+      <Dialog open={true}>
+        <CircularProgress />
+      </Dialog>
+    );
+  }
+
+  if (error) {
+    console.log('error processing payment: ', error);
+    return (
+      <Dialog open={true}>
+        <DialogTitle>Error processing payment</DialogTitle>
+      </Dialog>
+    );
+  }
+
+  if (showSuccessModal) {
+    return (
+      <Dialog open={true} onClose={onClose}>
+        <DialogTitle>Payment processed successfully</DialogTitle>
+        <DialogActions sx={{ p: 3 }}>
+          <Button onClick={onClose} color="secondary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
+  // TODO: validation on inputs
   return (
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Make a Payment - {account.id}</DialogTitle>
@@ -88,7 +127,7 @@ export const PaymentModal: React.FC<{
           Cancel
         </Button>
         <Button
-          onClick={handlePay}
+          onClick={handlePayment}
           variant="contained"
           color="primary"
           disabled={

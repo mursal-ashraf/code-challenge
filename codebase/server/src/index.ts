@@ -116,6 +116,15 @@ const typeDefs = `
     getEnergyAccounts: [EnergyAccount]
     getEnergyAccount(id: String!): EnergyAccount
   }
+
+  type Mutation {
+    processPayment(input: ProcessPaymentInput!): EnergyAccount!
+  }
+
+  input ProcessPaymentInput {
+    accountId: String!
+    amount: Float!
+  }
 `;
 
 const resolvers = {
@@ -127,6 +136,35 @@ const resolvers = {
         throw new GraphQLError(`No account found with id: ${id}`);
       }
       return account;
+    },
+  },
+  Mutation: {
+    processPayment: (
+      _: {},
+      {
+        input: { accountId, amount },
+      }: { input: { accountId: string; amount: number } }
+    ) => {
+      const account = accounts.find((account) => account.id === accountId);
+      if (!account) {
+        throw new GraphQLError(
+          `Account not found for account id: ${accountId}. Cannot process payment.`
+        );
+      }
+      if (amount <= 0) {
+        throw new GraphQLError(
+          `Payment amount needs to be greater than 0. Cannot process payment.`
+        );
+      }
+      const newCharge = {
+        id: 'new-payment-id', // TODO: charge id
+        accountId,
+        amount,
+        date: new Date().toISOString().slice(0, 10),
+      };
+      dueCharges.push(newCharge);
+
+      return accounts.find((account) => account.id === accountId);
     },
   },
   EnergyAccount: {
@@ -175,4 +213,4 @@ const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
 });
 
-console.log(`🚀  Server ready at: ${url}`);
+console.log(`Server ready at: ${url}`);
