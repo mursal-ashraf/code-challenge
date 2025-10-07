@@ -3,11 +3,13 @@ import { Card, CardContent, Typography, Stack, Button } from '@mui/material';
 import type { EnergyAccount } from './types';
 import { capitalize } from 'lodash';
 import { PaymentModal } from './PaymentModal';
+import { useNavigate } from 'react-router';
 
 export const AccountCard: React.FC<{ account: EnergyAccount }> = ({
   account,
 }) => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const navigateTo = useNavigate();
 
   return (
     <>
@@ -25,15 +27,24 @@ export const AccountCard: React.FC<{ account: EnergyAccount }> = ({
               {`$${account.balance}`}
             </Typography>
           </Stack>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-            onClick={() => setIsPaymentModalOpen(true)}
-          >
-            Make a Payment
-          </Button>
+          <Stack direction="row" justifyContent="space-between" mt={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={() => setIsPaymentModalOpen(true)}
+            >
+              Make a Payment
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={() => navigateTo(`${account.id}/payment-history`)}
+            >
+              Payment History
+            </Button>
+          </Stack>
         </CardContent>
       </Card>
       {isPaymentModalOpen && (

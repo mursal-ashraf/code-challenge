@@ -1,7 +1,8 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { GraphQLError } from 'graphql';
 
-const accounts: any[] = [
+const accounts: EnergyAccount[] = [
   {
     id: 'A-0001',
     type: 'ELECTRICITY',
@@ -101,26 +102,49 @@ const typeDefs = `
     volume: String
     meterNumber: String
     balance: Float
+    charges: [Charge]
+  }
+  
+  type Charge {
+    id: String
+    accountId: String
+    date: String
+    amount: Float
   }
 
   type Query {
     getEnergyAccounts: [EnergyAccount]
+    getEnergyAccount(id: String!): EnergyAccount
   }
 `;
 
 const resolvers = {
   Query: {
     getEnergyAccounts: () => accounts,
+    getEnergyAccount: (_: {}, { id }: { id: string }) => {
+      const account = accounts.find((account) => account.id === id);
+      if (!account) {
+        throw new GraphQLError(`No account found with id: ${id}`);
+      }
+      return account;
+    },
   },
   EnergyAccount: {
-    balance: (energyAccount: EnergyAccount) => {
+    balance: ({ id }: EnergyAccount) => {
       const accountCharges = dueCharges.filter(
-        (charge) => charge.accountId === energyAccount.id
+        (charge) => charge.accountId === id
       );
 
       return accountCharges.reduce(
         (acc, currentCharge) => acc + currentCharge.amount,
         0
+      );
+    },
+    charges: ({ id }: EnergyAccount) => {
+      const accountCharges =
+        dueCharges.filter((charge) => charge.accountId === id) || [];
+      return accountCharges.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
     },
   },
